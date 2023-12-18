@@ -1,0 +1,26 @@
+<div [formGroup]="form">
+  <label [attr.for]="question.key">{{question.label}}</label>
+
+  <div [ngSwitch]="question.controlType">
+
+    <input *ngSwitchCase="'textbox'" [formControlName]="question.key"
+            [id]="question.key" [type]="question.type">
+
+    <select [id]="question.key" *ngSwitchCase="'dropdown'" [formControlName]="question.key">
+      <option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
+    </select>
+
+     <input *ngSwitchCase="'password'" [formControlName]="question.key"
+            [id]="question.key" [type]="question.type" >
+
+
+  
+<!--{{(form.controls['password'].errors)?form.controls['password'].errors['pattern']:''}}
+{{form.value|json}} -->
+  <div class="errorMessage" *ngIf="isRequired ">{{question.label}} is required</div>
+  <div *ngIf="isPasswordQuestion(question)">
+  <div  class="errorMessage" *ngIf="!isValidPattern">{{question.label}} is must follow {{question.patternMsg}}</div>
+  </div>
+
+
+</div>
